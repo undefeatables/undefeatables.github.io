@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeAuth();
         location.reload();
       } else alert(json.message || 'Signup failed');
-    } catch (err) { alert('Server error') }
+    } catch (err) { alert('This is a demo version of site.') }
   });
 
   // close modal when clicking outside card
@@ -116,3 +116,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
