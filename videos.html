@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><title>Videos — Undefeatables</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="container">
+    <section style="margin-top:1rem">
+      <h2>All Videos</h2>
+      <p class="small">Explore lessons, playlists and curated series. Subscribe for full access.</p>
+      <div id="video-grid" class="grid" style="margin-top:1rem">
+  <!-- app.js will populate from /api/videos -->
+      </div>
+    </section>
+  </main>
+
+  <script src="js/common.js" defer></script>
+  <script src="js/script.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script>
+    // Wait for everything (including injected header/footer) to be ready
+    window.addEventListener('DOMContentLoaded', () => {
+      // Wait a tick to ensure header/footer/modal injected
+      setTimeout(loadVideos, 0);
+    });
+  </script>
+</body>
+</html>

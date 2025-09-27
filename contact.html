@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><title>Contact — Undefeatables</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="container">
+    <section style="margin-top:1rem">
+      <h2>Contact</h2>
+      <p class="small">Questions, collaborations, or partnership inquiries — send us a message.</p>
+
+      <form class="contact" id="contact-form">
+        <label>Name</label><input type="text" placeholder="Full name" id="contact-name" required />
+        <label>Email</label><input type="email" placeholder="you@domain.com" id="contact-email" required />
+        <label>Phone</label><input type="tel" placeholder="+91 9XXXXXXXXX" id="contact-phone" />
+        <label>Subject</label><input type="text" placeholder="Short subject" id="contact-subject" />
+        <label>Message</label><textarea placeholder="Tell us what you need..." id="contact-message" required></textarea>
+        <div style="display:flex;gap:.6rem;align-items:center">
+          <button type="submit" class="btn">Send Message</button>
+          <span class="small" id="contact-status"></span>
+        </div>
+      </form>
+
+      <form id="feedback-form">
+        <input type="text" id="feedback-name" placeholder="Your Name" required /><br/>
+        <input type="email" id="feedback-email" placeholder="Your Email" required /><br/>
+        <textarea id="feedback-message" placeholder="Your Feedback" required></textarea><br/>
+        <button type="submit">Send Feedback</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/common.js" defer></script>
+  <script src="js/script.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const form = document.getElementById('contact-form');
+      const status = document.getElementById('contact-status');
+      form.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        status.textContent = 'Sending...';
+        setTimeout(()=>{ status.textContent = 'Message sent (demo)'; form.reset(); }, 900);
+      });
+    });
+  </script>
+</body>
+</html>

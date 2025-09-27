@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Undefeatables — Home</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- header/footer injected by common.js -->
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <h2>Become Limitless. Become Undefeatable.</h2>
+        <p>High-quality skill videos, bite-sized lessons, and creator-led series designed to help you master real-world skills quickly. Subscribe for full access.</p>
+        <div class="hero-cta">
+          <button class="btn" onclick="startLearning()">Start Learning</button>
+          <button class="btn ghost" onclick="location.href='pricing'">See Pricing</button>
+        </div>
+      </div>
+
+      <aside class="card-cta">
+        <h4>Why Undefeatables?</h4>
+        <p class="small">Curated creators • Practical projects • Weekly releases</p>
+        <div style="margin-top:.6rem">
+          <strong>Subscription:</strong> ₹129 / month
+        </div>
+        <div style="margin-top:.8rem">
+          <button class="btn" onclick="startSubscriptionFlow()">Subscribe</button>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section">
+      <h3>Featured</h3>
+      <div class="grid" style="margin-top:1rem">
+        <!-- placeholders -->
+        <div class="video-card">
+          <div class="thumb" style="background-image:url('assets/f-1.png')"></div>
+          <div class="meta"><h4>Think School</h4><p class="small">Inspiring Visionaries, Entrepreneurs and Leaders to redefine India's Next Chapter.</p></div>
+        </div>
+
+        <div class="video-card">
+          <div class="thumb" style="background-image:url('assets/f-2.png')"></div>
+          <div class="meta"><h4>ChetChat</h4><p class="small">Your personal growth and language learning companion,guodes to present confidently in class, fests, or events.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h3>What makes us different</h3>
+      <div class="row" style="margin-top:1rem">
+        <div class="feature"><h3>Affordable Learning</h3><p>Learn skills that matter at just ₹129/month — no hidden fees, no long contracts.</p></div>
+        <div class="feature"><h3>Creators, Not Tutors</h3><p>Top YouTubers and creators share real workflows, hacks, and projects — not boring theory.</p></div>
+        <div class="feature"><h3>Projects That Count</h3><p>Every series ends with something you can actually showcase — a website, a video edit, a mini business idea — anything!</p></div>
+        <div class="feature"><h3>Community & Feedback</h3><p>Join peers, get feedback, collaborate on projects — grow together.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/common.js" defer></script>
+  <script src="js/script.js" defer></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="js/app.js" defer></script>
+</body>
+</html>

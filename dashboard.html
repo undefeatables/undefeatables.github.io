@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Dashboard — Undefeatables</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* Extra dashboard spacing and sizing */
+    .profile-card {
+      max-width: 750px;
+      padding: 2.8rem 2.2rem;
+      gap: 3rem;
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+    .profile-avatar img {
+      width: 130px;
+      height: 130px;
+      margin-right: 2rem;
+      box-shadow: 0 8px 32px rgba(123,75,255,0.22);
+    }
+    .profile-info h3 {
+      font-size: 2.1rem;
+      margin-bottom: 1.2rem;
+    }
+    .profile-info p {
+      font-size: 1.15rem;
+      margin: .7rem 0;
+    }
+    .badge {
+      font-size: 1.1rem;
+      padding: .45rem 1.1rem;
+    }
+    .profile-actions {
+      gap: 1.2rem;
+      margin-top: 1.5rem;
+    }
+    .btn, .btn.ghost, .btn.btn-sm {
+      font-size: 1.08rem;
+      padding: .7rem 1.3rem;
+      min-width: 160px;
+    }
+    @media (max-width: 900px) {
+      .profile-card { flex-direction: column; align-items: center; }
+      .profile-avatar img { margin-bottom: 1.5rem; margin-right: 0; }
+      .profile-actions { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    }
+    @media (max-width: 600px) {
+      .profile-card { padding: 1.2rem .5rem; gap: 1.2rem; }
+      .profile-avatar img { width: 80px; height: 80px; }
+      .profile-info h3 { font-size: 1.3rem; }
+      .btn, .btn.ghost, .btn.btn-sm { min-width: 120px; font-size: .98rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- header/footer injected by common.js -->
+  <main class="container">
+    <h2 style="text-align:center;margin-top:2.5rem;font-size:2.3rem;">Dashboard</h2>
+    <div id="dashboard-content"></div>
+  </main>
+  <!-- Change Password Modal -->
+  <div id="change-pass-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-change-pass" class="close">&times;</span>
+      <h3>Change Password</h3>
+      <input type="password" id="old-pass" placeholder="Old Password" /><br/>
+      <input type="password" id="new-pass" placeholder="New Password" /><br/>
+      <button id="submit-change-pass" class="btn">Change Password</button>
+    </div>
+  </div>
+  <script src="js/common.js" defer></script>
+  <script src="js/script.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script>
+    async function fetchUserDetails(token) {
+      const res = await fetch('/api/auth/me', {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      if (!res.ok) throw new Error("Unauthorized");
+      return await res.json();
+    }
+
+    async function fetchSubscriptionStatus(token) {
+      const res = await fetch('/api/subscription/status', {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      if (!res.ok) return { active: false };
+      return await res.json();
+    }
+
+    async function showDashboard() {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        if (window.openAuth) window.openAuth();
+        document.getElementById("dashboard-content").innerHTML = "<p style='text-align:center;font-size:1.2rem;margin-top:2rem;'>Please sign in to view your dashboard.</p>";
+        return;
+      }
+      try {
+        const [user, sub] = await Promise.all([
+          fetchUserDetails(token),
+          fetchSubscriptionStatus(token)
+        ]);
+        document.getElementById("dashboard-content").innerHTML = `
+          <div class="profile-card">
+            <div class="profile-avatar">
+              <img src="assets/logo-u.jpg" alt="Avatar" />
+            </div>
+            <div class="profile-info">
+              <h3>${user.name}</h3>
+              <p>
+                <span class="profile-email">${user.email}</span>
+                <button class="btn btn-sm" id="copy-email-btn" title="Copy Email">📋 Copy Email</button>
+              </p>
+              <!--<p><strong>Account Created:</strong> ${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "N/A"}</p>-->
+              <p>
+                <strong>Subscription:</strong>
+                <span class="badge ${sub.active ? "active" : "inactive"}">
+                  ${sub.active ? "Active" : "Inactive"}
+                </span>
+              </p>
+              <p><strong>Renewal Date:</strong> ${sub.active && sub.endDate ? new Date(sub.endDate).toLocaleDateString() : "N/A"}</p>
+            </div>
+            <div class="profile-actions">
+              <button id="change-pass-btn" class="btn">Change Password</button>
+              <button id="logout-btn" class="btn ghost">Logout</button>
+              <button id="delete-account-btn" class="btn ghost" style="margin-top:1rem;">Delete Account</button>
+            </div>
+          </div>
+        `;
+        document.getElementById("logout-btn").onclick = () => {
+          localStorage.removeItem("token");
+          location.reload();
+        };
+        document.getElementById("change-pass-btn").onclick = () => {
+          document.getElementById("change-pass-modal").classList.add("open");
+        };
+        document.getElementById("close-change-pass").onclick = () => {
+          document.getElementById("change-pass-modal").classList.remove("open");
+        };
+        window.onclick = (event) => {
+          if (event.target == document.getElementById("change-pass-modal")) {
+            document.getElementById("change-pass-modal").classList.remove("open");
+          }
+        };
+        document.getElementById("submit-change-pass").onclick = async () => {
+          const oldPass = document.getElementById("old-pass").value;
+          const newPass = document.getElementById("new-pass").value;
+          if (!oldPass || !newPass) {
+            return alert("Please fill in both fields.");
+          }
+          const token = localStorage.getItem("token");
+          const res = await fetch('/api/auth/change-password', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + token
+            },
+            body: JSON.stringify({ oldPassword: oldPass, newPassword: newPass })
+          });
+          if (res.ok) {
+            alert("Password changed successfully!");
+            document.getElementById("change-pass-modal").classList.remove("open");
+          } else {
+            const err = await res.json();
+            alert(err.message || "Error changing password.");
+          }
+        };
+        document.getElementById("copy-email-btn").onclick = () => {
+          navigator.clipboard.writeText(user.email);
+          alert("Email copied!");
+        };
+        document.getElementById("delete-account-btn").onclick = async () => {
+          if (!confirm("Are you sure you want to delete your account? This cannot be undone.")) return;
+          const res = await fetch('/api/auth/delete-account', {
+            method: 'DELETE',
+            headers: { Authorization: 'Bearer ' + token }
+          });
+          if (res.ok) {
+            alert("Account deleted.");
+            localStorage.removeItem("token");
+            location.reload();
+          } else {
+            alert("Error deleting account.");
+          }
+        };
+      } catch (err) {
+        localStorage.removeItem("token");
+        if (window.openAuth) window.openAuth();
+        document.getElementById("dashboard-content").innerHTML = "<p style='text-align:center;font-size:1.2rem;margin-top:2rem;'>Please sign in to view your dashboard.</p>";
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", showDashboard);
+  </script>
+</body>
+</html>

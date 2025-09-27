@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Video Player — Undefeatables</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- header/footer injected by common.js -->
+
+  <main class="container">
+    <section id="video-player-section" style="margin-top:1rem">
+      <div id="video-meta"></div>
+      <div id="video-container" style="margin:2rem 0;">
+        <video id="hls-video" controls width="100%" style="max-width:800px; background:#000; border-radius:12px;"></video>
+      </div>
+      <div id="video-extra"></div>
+    </section>
+  </main>
+
+  <script src="js/common.js" defer></script>
+  <script src="js/script.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <!-- hls.js for HLS playback -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+  function getQueryParam(name) {
+    const url = new URL(window.location.href);
+    return url.searchParams.get(name);
+  }
+
+  async function fetchVideoData(videoId, token) {
+    const headers = {};
+    if (token) headers["Authorization"] = "Bearer " + token;
+    const res = await fetch(`/api/videos/${videoId}`, { headers });
+    if (!res.ok) throw new Error("unauthorized");
+    return await res.json();
+  }
+
+  async function setupPlayer() {
+    const videoId = getQueryParam("id");
+    const meta = document.getElementById("video-meta");
+    const container = document.getElementById("video-container");
+    meta.innerHTML = "<p>Loading...</p>";
+    if (!videoId) {
+      window.location.replace("videos.html");
+      return;
+    }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.openAuth && window.openAuth();
+      return;
+    }
+    try {
+      const data = await fetchVideoData(videoId, token);
+
+      // If backend says not subscribed, redirect
+      if (!data.subscribed) {
+        window.location.replace("pricing.html");
+        return;
+      }
+
+      // Show metadata
+      meta.innerHTML = `
+        <h2>${data.title}</h2>
+        <p>${data.description || ""}</p>
+        <p class="small">By ${data.creator?.name || "Unknown"}</p>
+      `;
+
+      // Setup video player (for now, use direct mp4/hls link from DB)
+      const video = document.getElementById("hls-video");
+      if (data.hlsUrl) {
+        // S3 signed URL logic is handled in backend, so nothing to change here for dev/test
+        if (Hls.isSupported()) {
+          const hls = new Hls();
+          hls.loadSource(data.hlsUrl);
+          hls.attachMedia(video);
+        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+          video.src = data.hlsUrl;
+        } else {
+          container.innerHTML = "<p>Your browser does not support HLS playback.</p>";
+        }
+      } else if (data.mp4Url) {
+        video.src = data.mp4Url;
+      } else {
+        container.innerHTML = "<p>Video file not found.</p>";
+      }
+
+      document.getElementById("video-extra").innerHTML = data.extraHtml || "";
+    } catch (err) {
+      // Show error message instead of redirecting to pricing
+      document.getElementById("video-meta").innerHTML = "<p>Video not found or you are not authorized.</p>";
+      document.getElementById("video-container").innerHTML = "";
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", setupPlayer);
+  </script>
+</body>
+</html>

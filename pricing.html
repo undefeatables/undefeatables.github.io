@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing - Undefeatables</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #2a0055, #5f00aa, #7f3fff);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .pricing-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 50px 20px;
+            text-align: center;
+        }
+        .pricing-container h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .pricing-container p.tagline {
+            font-size: 1.2rem;
+            color: #d6cfff;
+            margin-bottom: 40px;
+        }
+        .plan-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .plan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 35px rgba(0,0,0,0.7);
+        }
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 20px 0;
+            background: linear-gradient(90deg, #fff, #d0a8ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .plan-features {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
+        }
+        .plan-features li {
+            font-size: 1.1rem;
+            margin: 12px 0;
+        }
+        .plan-features i {
+            color: #00ffcc;
+            margin-right: 10px;
+        }
+        .subscribe-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(90deg, #8a2be2, #6a0dad);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .subscribe-btn:hover {
+            background: linear-gradient(90deg, #6a0dad, #8a2be2);
+            transform: scale(1.05);
+        }
+        .psych-text {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #ffdfff;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pricing-container">
+        <h1>One Simple Plan</h1>
+        <p class="tagline">Because greatness shouldn’t be complicated.</p>
+
+        <div class="plan-card">
+            <h2>Premium Access</h2>
+            <p class="price">₹129<span style="font-size:1rem;"> / month</span></p>
+            <ul class="plan-features">
+                <li><i class="fas fa-check-circle"></i> Unlimited access to all premium videos</li>
+                <li><i class="fas fa-check-circle"></i> Early access to new content</li>
+                <li><i class="fas fa-check-circle"></i> Exclusive creators' behind-the-scenes</li>
+                <li><i class="fas fa-check-circle"></i> Ad-free experience</li>
+                <li><i class="fas fa-check-circle"></i> Support our mission to stay <b>Undefeatable</b></li>
+            </ul>
+            <button class="subscribe-btn" onclick="startSubscriptionFlow()">Subscribe Now</button>
+            <p class="psych-text">💡 People who invest in themselves feel more confident, focused, and unstoppable.  
+            This is less than the price of a coffee a week — but lasts the whole month.</p>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script src="js/script.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="js/app.js" defer></script>
+</body>
+</html>
