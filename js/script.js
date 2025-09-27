@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         closeAuth();
         location.reload();
       } else alert(json.message || 'Login failed');
-    } catch (err) { alert('Server error') }
+    } catch (err) { alert('This is a demo version of site.') }
   });
 
   if (signupSubmit) signupSubmit.addEventListener('click', async () => {
@@ -116,4 +116,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
 
