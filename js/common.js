@@ -1,7 +1,7 @@
 /* common.js
    Injects header/nav/footer + auth modal.
    Also provides token helpers and subscription badge update.
-   Place this file at frontend/js/common.js
+   Place this file at /js/common.js
 */
 (function () {
   const basePath = ''; // use if hosting frontend elsewhere
@@ -143,4 +143,5 @@
   window.updateAuthUI = updateAuthUI;
 
 })();
+
 
