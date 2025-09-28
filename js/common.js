@@ -9,7 +9,7 @@
   const headerHTML = `
     <div class="container header-wrap">
       <div class="brand">
-        <a href="./"><img src="assets/logo-u.png" alt="Undefeatables logo" /></a>
+        <a href="https://undefeatables.in"><img src="https://undefeatables.in/assets/logo-u.png" alt="Undefeatables logo" /></a>
         <div>
           <h1>UNDEFEATABLES</h1>
           <p>Limitless. Fearless. Undefeatable.</p>
@@ -19,12 +19,12 @@
       <div style="display:flex;align-items:center;gap:1rem">
         <nav>
           <ul id="main-nav">
-            <li><a href="/">Home</a></li>
-            <li><a href="videos">Videos</a></li>
-            <li><a href="creators">Creators</a></li>
-            <li><a href="about">About</a></li>
-            <li><a href="contact">Contact</a></li>
-            <li><a href="dashboard" id="dashboard-nav">Dashboard</a></li>
+            <li><a href="https://undefeatables.in">Home</a></li>
+            <li><a href="https://undefeatables.in/videos">Videos</a></li>
+            <li><a href="https://undefeatables.in/creators">Creators</a></li>
+            <li><a href="https://undefeatables.in/about">About</a></li>
+            <li><a href="https://undefeatables.in/contact">Contact</a></li>
+            <li><a href="https://undefeatables.in/dashboard" id="dashboard-nav">Dashboard</a></li>
         <div class="actions">
           <span id="sub-badge" class="sub-badge" title="Subscription status"></span>
           <button id="btn-login" class="btn">Login / Signup</button>
@@ -143,3 +143,4 @@
   window.updateAuthUI = updateAuthUI;
 
 })();
+
