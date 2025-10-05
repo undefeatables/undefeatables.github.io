@@ -31,7 +31,7 @@ html,body{height:100%;margin:0;background:
 .header-wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 0}
 .brand{display:flex;align-items:center;gap:.75rem}
 .brand img{height:48px;width:48px;object-fit:contain;border-radius:8px;box-shadow:0 6px 20px rgba(123,75,255,0.12);}
-.brand h1{font-size:1.1rem;margin:0;font-weight:800;color:linear-gradient(90deg,var(--brand1),var(--brand2));letter-spacing:1px}
+.brand h2{font-size:1.1rem;margin:0;font-weight:800;color:linear-gradient(90deg,var(--brand1),var(--brand2));letter-spacing:1px}
 .brand p{margin:0;font-size:.8rem;color:var(--muted)}
 
 /* nav */
@@ -58,7 +58,7 @@ nav a:hover{background:linear-gradient(90deg, rgba(255,255,255,0.02), transparen
   box-shadow: var(--shadow);
   backdrop-filter: blur(6px);
 }
-.hero-left h2{font-size:2.4rem;margin:0 0 .6rem;font-weight:800;letter-spacing:-1px}
+.hero-left h1{font-size:2.4rem;margin:0 0 .6rem;font-weight:800;letter-spacing:-1px}
 .hero-left p{color:var(--muted);font-size:1rem;margin-bottom:1rem}
 .hero-cta{display:flex;gap:.8rem;align-items:center;justify-content: center;}
 .hero-cta .btn{font-size:1rem;padding:.75rem 1rem}
@@ -250,3 +250,4 @@ footer.site-footer{margin-top:2rem;padding:1rem;text-align:center;color:var(--mu
   }
   .header-wrap{padding:0.6rem 0.6rem}
 }
+
