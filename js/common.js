@@ -11,7 +11,7 @@
       <div class="brand">
         <a href="https://undefeatables.in"><img src="https://undefeatables.in/assets/logo-u.png" alt="Undefeatables logo" /></a>
         <div>
-          <h1>UNDEFEATABLES</h1>
+          <h2>UNDEFEATABLES</h2>
           <p>Limitless. Fearless. Undefeatable.</p>
         </div>
       </div>
@@ -143,5 +143,6 @@
   window.updateAuthUI = updateAuthUI;
 
 })();
+
 
 
