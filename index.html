@@ -137,78 +137,145 @@
       to { opacity: 1; transform: scaleX(1); }
     }
 
-    /* waitlist box - use your existing look but elevated */
+    /* ============ WAITLIST UI (refined) ============ */
     .waitlist-box {
-      max-width: 560px;
+      max-width: 520px;
       margin: 1.6rem auto 0;
-      padding: 1.2rem;
-      border-radius: 12px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-      box-shadow: 0 10px 40px rgba(2,6,23,0.6);
+      padding: 1.25rem;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01));
+      box-shadow: 0 12px 48px rgba(2,6,23,0.6);
       position: relative;
       z-index: 4;
-      border: 1px solid rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.035);
+      display: grid;
+      gap: 0.9rem;
+      align-items: center;
     }
-    .waitlist-box h3 {
-      margin: 0 0 .6rem;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #eaf1ff;
+
+    .waitlist-head {
+      display:flex;
+      gap:.6rem;
+      align-items:center;
+      justify-content:space-between;
     }
-    .waitlist-row { display:flex; gap:.6rem; align-items:center; }
+    .waitlist-head h3 {
+      margin:0;
+      font-size:1.05rem;
+      font-weight:800;
+      color:#eaf1ff;
+    }
+    .waitlist-subtle { color: var(--muted); font-size: .9rem; margin-left: .6rem; }
+
+    .waitlist-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .6rem;
+      align-items: center;
+    }
+
+    /* input with icon */
+    .input-wrap {
+      position: relative;
+      display: block;
+    }
+    .input-wrap svg {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 18px;
+      width: 18px;
+      opacity: .9;
+      color: rgba(255,255,255,0.7);
+      pointer-events: none;
+    }
     .waitlist-row input[type="email"] {
-      flex:1;
-      padding:.78rem .9rem;
-      border-radius:10px;
-      border:1px solid rgba(255,255,255,0.03);
-      background: #071022;
+      width: 100%;
+      padding: .86rem 1rem .86rem 40px; /* left space for icon */
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: rgba(7,16,34,0.62);
       color: #eaf1ff;
-      font-size:1rem;
+      font-size: 1rem;
       outline: none;
-      transition: box-shadow .15s ease, transform .12s ease;
+      transition: box-shadow .14s ease, transform .12s ease, border-color .12s ease;
     }
+    .waitlist-row input[type="email"]::placeholder { color: rgba(234,241,255,0.45); }
+
     .waitlist-row input[type="email"]:focus {
-      box-shadow: 0 6px 24px rgba(123,75,255,0.08);
+      box-shadow: 0 8px 30px rgba(123,75,255,0.09);
+      border-color: rgba(123,75,255,0.55);
       transform: translateY(-1px);
     }
+
     .waitlist-row .btn {
-      padding:.68rem .9rem;
-      border-radius:10px;
-      box-shadow: 0 8px 24px rgba(123,75,255,0.12);
-      transition: transform .18s ease, box-shadow .18s ease, opacity .12s ease;
-      background: linear-gradient(90deg, rgba(196,107,255,0.95), rgba(0,212,255,0.95));
+      padding: .78rem 1rem;
+      border-radius: 12px;
+      background: linear-gradient(90deg, rgba(196,107,255,0.98), rgba(0,212,255,0.95));
       color: #021024;
+      font-weight: 900;
       border: none;
-      font-weight: 800;
       cursor: pointer;
+      box-shadow: 0 10px 36px rgba(123,75,255,0.14);
+      min-width: 140px;
+      transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
     }
-    .waitlist-row .btn[disabled] { opacity: 0.6; cursor: default; transform: none; box-shadow: none; }
-    .waitlist-row .btn:active{ transform: translateY(1px); box-shadow: 0 6px 18px rgba(0,0,0,0.5) }
+    .waitlist-row .btn[disabled] { opacity: .6; cursor: default; transform: none; box-shadow: none; }
+    .waitlist-row .btn:active { transform: translateY(1px); box-shadow: 0 8px 30px rgba(0,0,0,0.45); }
 
-    .muted-note { color: var(--muted); font-size:.9rem; margin-top:.6rem; }
-
-    /* callouts for creators */
-    .creator-cta {
-      display:flex; gap:.6rem; justify-content:center; margin-top:1rem; z-index:4;
+    .form-meta {
+      display:flex;
+      justify-content:space-between;
+      gap:.6rem;
+      align-items:center;
+      margin-top: .2rem;
     }
-    .ghost-btn { background: transparent; border:1px solid rgba(255,255,255,0.04); color:#dfeeff; padding:.6rem .9rem; border-radius:10px; text-decoration:none; font-weight:700; }
+    .muted-note { color: var(--muted); font-size:.88rem; }
 
-    /* small animated accent shapes */
-    .accent-orb {
-      position:absolute;
-      width:120px;height:120px;border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, rgba(196,107,255,0.85), rgba(123,75,255,0.6) 40%, transparent 60%);
-      filter: blur(20px);
-      z-index:1;
-      opacity:0.9;
-      transform: translate3d(0,-20px,0);
-      animation: orbFloat 8s ease-in-out infinite;
+    .ghost-btn { background: transparent; border:1px solid rgba(255,255,255,0.04); color:#dfeeff; padding:.5rem .8rem; border-radius:10px; text-decoration:none; font-weight:700; }
+
+    /* inline error message */
+    .input-error {
+      color: #ffb4b4;
+      font-size: .9rem;
+      margin-top: .45rem;
+      display: none;
+      align-items: center;
+      gap: .45rem;
     }
-    .accent-orb.right { right:-6%; top:8%; animation-duration:11s; background: radial-gradient(circle at 30% 30%, rgba(0,212,255,0.85), rgba(0,180,255,0.55) 40%, transparent 60%); }
-    @keyframes orbFloat {
-      0% { transform: translate3d(0,-6px,0) scale(1); }
-      50% { transform: translate3d(12px,6px,0) scale(1.03); }
-      100% { transform: translate3d(0,-6px,0) scale(1); }
+    .input-error.show { display: flex; }
+
+    /* success toast (subtle) */
+    .waitlist-success {
+      display:flex;
+      gap:.6rem;
+      align-items:center;
+      justify-content:center;
+      margin-top:.6rem;
+      padding:.6rem;
+      border-radius:10px;
+      background: linear-gradient(90deg, rgba(123,75,255,0.06), rgba(0,212,255,0.04));
+      color: #eaf1ff;
+      font-weight:700;
+      text-align:center;
+      box-shadow: 0 10px 36px rgba(2,6,23,0.6);
+      transform: translateY(6px);
+      opacity: 0;
+      transition: transform .28s cubic-bezier(.2,.9,.2,1), opacity .28s;
+      pointer-events: none;
+    }
+    .waitlist-success.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* responsive: stack on small screens */
+    @media (max-width: 520px) {
+      .waitlist-form { grid-template-columns: 1fr; }
+      .waitlist-row .btn { width: 100%; min-width: auto; }
+      .input-wrap svg { left: 12px; }
     }
 
     /* header + nav (added responsiveness & mobile toggle) */
@@ -265,21 +332,6 @@
       z-index: 6;
       position: relative;
     }
-
-    /* tiny success message */
-    .waitlist-success {
-      display:none;
-      margin-top:.6rem;
-      padding:.7rem;
-      border-radius:8px;
-      background: linear-gradient(90deg, rgba(123,75,255,0.06), rgba(0,212,255,0.04));
-      color: #eaf1ff;
-      font-weight:700;
-      text-align:center;
-      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
-    }
-    .waitlist-success.show { display:block; animation: successIn .36s ease both; }
-    @keyframes successIn { from { transform: translateY(6px); opacity: 0 } to { transform: translateY(0); opacity:1 } }
   </style>
 </head>
 
@@ -332,27 +384,48 @@
         <div class="hero-underscore" aria-hidden="true"></div>
         <p class="sub">Creator-led skill courses, project-first learning, and a community that ships work — built for people who actually do.</p>
 
-        <!-- waitlist -->
+        <!-- WAITLIST (refined markup) -->
         <div class="waitlist-box" aria-live="polite">
-          <h3>Get Early Access</h3>
-          <form id="waitlistForm" action="#" method="POST" novalidate>
-            <div class="waitlist-row">
-              <input id="wl-email" type="email" name="email" placeholder="you@domain.com" required aria-label="email" autocomplete="email">
-              <button class="btn" type="submit" id="wl-submit">Join Waitlist</button>
+          <div class="waitlist-head">
+            <div style="display:flex;align-items:center;gap:.5rem;">
+              <h3>Get Early Access</h3>
+              <div class="waitlist-subtle">Be first to join — creators invited early</div>
             </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.6rem;">
-              <p class="muted-note">Limited early slots — creators & mentors invited first.</p>
-              <div style="display:flex;gap:.5rem">
-                <a href="mailto:creators@undefeatables.in" class="ghost-btn">Apply as Creator</a>
+            <a href="mailto:creators@undefeatables.in" class="ghost-btn" style="font-size:.9rem;">Apply as Creator</a>
+          </div>
+
+          <form id="waitlistForm" class="waitlist-form" action="#" method="POST" novalidate>
+            <div class="input-wrap" style="min-width:0;">
+              <!-- email icon -->
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6.5A2.5 2.5 0 015.5 4h13A2.5 2.5 0 0121 6.5v11A2.5 2.5 0 0118.5 20h-13A2.5 2.5 0 013 17.5v-11z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 6l-9 7L3 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+              <input id="wl-email" type="email" name="email" placeholder="you@domain.com" required aria-label="email" autocomplete="email">
+              <div id="emailError" class="input-error" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="opacity:.9;"><path d="M12 8v4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 16h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span id="emailErrorText">Please enter a valid email.</span>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:.6rem;align-items:stretch;">
+              <button class="btn" type="submit" id="wl-submit" aria-live="polite">Join Waitlist</button>
+            </div>
+
+            <!-- meta row, visually hidden on small grid layout but kept for semantics -->
+            <div style="grid-column:1 / -1;">
+              <div class="form-meta">
+                <p class="muted-note">We respect your privacy — no spam.</p>
+                <p style="font-size:.85rem;color:var(--muted);margin:0;">&nbsp;</p>
               </div>
             </div>
           </form>
 
-          <div id="waitlistSuccess" class="waitlist-success" role="status">Thanks — you’re on the list! Check your inbox for updates.</div>
+          <div id="waitlistSuccess" class="waitlist-success" role="status" aria-live="polite">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span id="waitMsg">Thanks — you’re on the list! Check your inbox for updates.</span>
+          </div>
         </div>
 
         <div class="creator-cta">
-          <!-- additional CTA if needed -->
         </div>
 
       </div>
@@ -496,19 +569,25 @@
     // Firebase Firestore waitlist (modular SDK)
     // ----------------------
     // NOTE: replace the firebaseConfig object with your project's values.
-    // You can obtain these in the Firebase console (Project Settings -> SDK setup).
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-    // TODO: replace with your Firebase config
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
-    };
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBJ79YElN89gT4U-4z339kAE4JjnPobMr0",
+    authDomain: "undef-wait-v1.firebaseapp.com",
+    projectId: "undef-wait-v1",
+    storageBucket: "undef-wait-v1.firebasestorage.app",
+    messagingSenderId: "766114938290",
+    appId: "1:766114938290:web:8f2b25d5ac00cb0f16f8ab",
+    measurementId: "G-YG1T6LZ6F6"
+  };
+
+
 
     let db;
     try {
@@ -520,38 +599,71 @@
       db = null;
     }
 
+    // Elements
     const waitlistForm = document.getElementById('waitlistForm');
     const emailInput = document.getElementById('wl-email');
     const submitBtn = document.getElementById('wl-submit');
     const successEl = document.getElementById('waitlistSuccess');
+    const emailError = document.getElementById('emailError');
+    const emailErrorText = document.getElementById('emailErrorText');
+    const waitMsg = document.getElementById('waitMsg');
 
+    // Simple local fallback storage
     function fallbackStore(email){
       const key = 'ud_waitlist_v1';
       const arr = JSON.parse(localStorage.getItem(key) || '[]');
-      arr.push({ email, at: new Date().toISOString() });
-      localStorage.setItem(key, JSON.stringify(arr));
+      // prevent immediate duplicates in local fallback
+      if(!arr.some(i => i.email && i.email.toLowerCase() === email.toLowerCase())){
+        arr.push({ email, at: new Date().toISOString() });
+        localStorage.setItem(key, JSON.stringify(arr));
+      }
+    }
+
+    function showError(message){
+      if(emailError && emailErrorText){
+        emailErrorText.textContent = message;
+        emailError.classList.add('show');
+        setTimeout(()=> emailError.classList.remove('show'), 4500);
+      } else {
+        alert(message);
+      }
     }
 
     function showSuccess(message){
-      if(successEl){
-        successEl.textContent = message || 'Thanks — you’re on the list! Check your inbox for updates.';
+      if(successEl && waitMsg){
+        waitMsg.textContent = message || 'Thanks — you’re on the list! Check your inbox for updates.';
         successEl.classList.add('show');
-        setTimeout(()=> successEl.classList.remove('show'), 6000);
+        // keep success visible for a while
+        setTimeout(()=> successEl.classList.remove('show'), 7000);
       } else {
         alert(message || 'Added to waitlist');
       }
     }
 
+    // basic email validator
+    function isValidEmail(v){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    }
+
+    // Prevent accidental double submits
+    let inflight = false;
+
     if(waitlistForm){
       waitlistForm.addEventListener('submit', async (ev) => {
         ev.preventDefault();
+        if(inflight) return;
         const email = (emailInput && emailInput.value || '').trim();
-        if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-          alert('Please enter a valid email address.');
+        if(!email){
+          showError('Email cannot be empty.');
+          return;
+        }
+        if(!isValidEmail(email)){
+          showError('Please enter a valid email address.');
           return;
         }
 
         // UI feedback
+        inflight = true;
         submitBtn.disabled = true;
         const oldTxt = submitBtn.innerText;
         submitBtn.innerText = 'Adding...';
@@ -596,8 +708,19 @@
         // reset UI
         submitBtn.innerText = oldTxt;
         submitBtn.disabled = false;
+        inflight = false;
         if(emailInput) emailInput.value = '';
       });
+    }
+
+    // optional: real-time enable/disable of submit based on validity
+    if(emailInput && submitBtn){
+      function updateSubmitState(){
+        const v = (emailInput.value || '').trim();
+        submitBtn.disabled = !isValidEmail(v);
+      }
+      emailInput.addEventListener('input', updateSubmitState);
+      updateSubmitState();
     }
   </script>
 
