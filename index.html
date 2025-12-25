@@ -271,11 +271,49 @@
       pointer-events: auto;
     }
 
+    /* Creator modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2,6,23,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1rem;
+    }
+    .modal-backdrop.show { display: flex; }
+    .modal {
+      width: 100%;
+      max-width: 720px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(7,10,16,0.95), rgba(3,6,12,0.95));
+      box-shadow: 0 18px 60px rgba(2,6,23,0.8);
+      padding: 1.15rem;
+      border: 1px solid rgba(255,255,255,0.04);
+      color: #eaf1ff;
+    }
+    .modal h4 { margin: 0 0 .6rem; font-size: 1.05rem; }
+    .modal .modal-grid { display:grid; grid-template-columns: 1fr 1fr; gap:.6rem; margin-bottom:.6rem; }
+    .modal input, .modal textarea {
+      width: 100%;
+      padding: .7rem .8rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.04);
+      background: rgba(7,16,34,0.6);
+      color: #eaf1ff;
+      outline: none;
+    }
+    .modal textarea { min-height: 96px; resize:vertical; grid-column: 1 / -1; }
+    .modal .modal-actions { display:flex; gap:.6rem; justify-content:flex-end; align-items:center; margin-top:.4rem; }
+    .modal .btn-ghost { background:transparent; border:1px solid rgba(255,255,255,0.04); color:#eaf1ff; padding:.6rem .85rem; border-radius:10px; cursor:pointer; }
+
     /* responsive: stack on small screens */
     @media (max-width: 520px) {
       .waitlist-form { grid-template-columns: 1fr; }
       .waitlist-row .btn { width: 100%; min-width: auto; }
       .input-wrap svg { left: 12px; }
+      .modal .modal-grid { grid-template-columns: 1fr; }
     }
 
     /* header + nav (added responsiveness & mobile toggle) */
@@ -391,7 +429,7 @@
               <h3>Get Early Access</h3>
               <div class="waitlist-subtle">Be first to join — creators invited early</div>
             </div>
-            <a href="mailto:creators@undefeatables.in" class="ghost-btn" style="font-size:.9rem;">Apply as Creator</a>
+            <button id="openCreator" class="ghost-btn" style="font-size:.9rem;">Apply as Creator</button>
           </div>
 
           <form id="waitlistForm" class="waitlist-form" action="#" method="POST" novalidate>
@@ -434,6 +472,36 @@
   </main>
 
   <footer class="site-footer">© 2025 Undefeatables — All rights reserved.</footer>
+
+  <!-- Creator modal -->
+  <div id="creatorModal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="creatorTitle">
+    <div class="modal" role="document">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h4 id="creatorTitle">Apply as Creator</h4>
+        <button id="closeCreator" class="btn-ghost" aria-label="Close creator form">Close</button>
+      </div>
+
+      <form id="creatorForm" style="margin-top:.6rem;">
+        <div class="modal-grid">
+          <input id="creator-name" type="text" placeholder="Your name" required>
+          <input id="creator-email" type="email" placeholder="Email" required>
+          <input id="creator-portfolio" type="url" placeholder="Portfolio / Website (optional)">
+          <input id="creator-role" type="text" placeholder="What do you teach? (e.g. Product, Design, ML)" >
+        </div>
+        <textarea id="creator-note" placeholder="A short pitch — what you'll create and why (optional)"></textarea>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="creatorCancel">Cancel</button>
+          <button type="submit" class="btn" id="creatorSubmit">Apply</button>
+        </div>
+
+        <div id="creatorSuccess" class="waitlist-success" style="margin-top:.8rem; display:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="creatorMsg">Thanks — we received your application.</span>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Keep your common scripts -->
   <script src="js/script.js" defer></script>
@@ -541,7 +609,7 @@
     })();
   </script>
 
-  <!-- Nav Toggle + Waitlist Firebase handler -->
+  <!-- Nav Toggle + Waitlist + Creator handler -->
   <script type="module">
     // ----------------------
     // Mobile nav toggle
@@ -566,40 +634,37 @@
     }
 
     // ----------------------
-    // Firebase Firestore waitlist (modular SDK)
+    // Firebase (modular) setup - v12
     // ----------------------
-    // NOTE: replace the firebaseConfig object with your project's values.
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBJ79YElN89gT4U-4z339kAE4JjnPobMr0",
-    authDomain: "undef-wait-v1.firebaseapp.com",
-    projectId: "undef-wait-v1",
-    storageBucket: "undef-wait-v1.firebasestorage.app",
-    messagingSenderId: "766114938290",
-    appId: "1:766114938290:web:8f2b25d5ac00cb0f16f8ab",
-    measurementId: "G-YG1T6LZ6F6"
-  };
+    // Your web app's Firebase configuration (you already placed credentials here)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBJ79YElN89gT4U-4z339kAE4JjnPobMr0",
+      authDomain: "undef-wait-v1.firebaseapp.com",
+      projectId: "undef-wait-v1",
+      storageBucket: "undef-wait-v1.appspot.com",
+      messagingSenderId: "766114938290",
+      appId: "1:766114938290:web:8f2b25d5ac00cb0f16f8ab",
+      measurementId: "G-YG1T6LZ6F6"
+    };
 
-
-
-    let db;
+    let db = null;
     try {
       const app = initializeApp(firebaseConfig);
+      // analytics is optional; wrap in try because it can fail in some environments
+      try { getAnalytics(app); } catch(e) { /* ignore analytics failure */ }
       db = getFirestore(app);
-      // If config values are placeholder, operations will fail — we fallback below.
     } catch (err) {
-      console.warn('Firebase init failed (will use fallback):', err);
+      console.warn('Firebase init failed — falling back to local-only. Error:', err);
       db = null;
     }
 
-    // Elements
+    // ----------------------
+    // Waitlist logic
+    // ----------------------
     const waitlistForm = document.getElementById('waitlistForm');
     const emailInput = document.getElementById('wl-email');
     const submitBtn = document.getElementById('wl-submit');
@@ -608,15 +673,10 @@
     const emailErrorText = document.getElementById('emailErrorText');
     const waitMsg = document.getElementById('waitMsg');
 
-    // Simple local fallback storage
-    function fallbackStore(email){
-      const key = 'ud_waitlist_v1';
+    function fallbackStore(key, payload){
       const arr = JSON.parse(localStorage.getItem(key) || '[]');
-      // prevent immediate duplicates in local fallback
-      if(!arr.some(i => i.email && i.email.toLowerCase() === email.toLowerCase())){
-        arr.push({ email, at: new Date().toISOString() });
-        localStorage.setItem(key, JSON.stringify(arr));
-      }
+      arr.push(payload);
+      localStorage.setItem(key, JSON.stringify(arr));
     }
 
     function showError(message){
@@ -633,21 +693,17 @@
       if(successEl && waitMsg){
         waitMsg.textContent = message || 'Thanks — you’re on the list! Check your inbox for updates.';
         successEl.classList.add('show');
-        // keep success visible for a while
         setTimeout(()=> successEl.classList.remove('show'), 7000);
       } else {
         alert(message || 'Added to waitlist');
       }
     }
 
-    // basic email validator
     function isValidEmail(v){
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
     }
 
-    // Prevent accidental double submits
     let inflight = false;
-
     if(waitlistForm){
       waitlistForm.addEventListener('submit', async (ev) => {
         ev.preventDefault();
@@ -662,30 +718,31 @@
           return;
         }
 
-        // UI feedback
         inflight = true;
         submitBtn.disabled = true;
         const oldTxt = submitBtn.innerText;
         submitBtn.innerText = 'Adding...';
 
-        // Try Firestore, else fallback to localStorage
         let saved = false;
+
+        // Try Firestore first (fast path)
         if(db){
           try {
             await addDoc(collection(db, 'waitlist'), {
               email,
-              createdAt: serverTimestamp()
+              createdAt: serverTimestamp(),
+              source: 'site'
             });
             saved = true;
             showSuccess('You’ve been added to the waitlist — check your email for updates.');
           } catch (err) {
-            console.warn('Firestore add failed, falling back:', err);
+            console.warn('Firestore add failed:', err);
           }
         }
 
+        // If Firestore failed, attempt API endpoint (if you have one)
         if(!saved){
           try {
-            // attempt a small fetch to /api/waitlist if you have a server endpoint
             const res = await fetch('/api/waitlist', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -700,12 +757,12 @@
           }
         }
 
+        // final fallback: store locally
         if(!saved){
-          fallbackStore(email);
+          fallbackStore('ud_waitlist_v1', { email, at: new Date().toISOString() });
           showSuccess('Added to local waitlist (demo). We will migrate this when backend is ready.');
         }
 
-        // reset UI
         submitBtn.innerText = oldTxt;
         submitBtn.disabled = false;
         inflight = false;
@@ -713,7 +770,7 @@
       });
     }
 
-    // optional: real-time enable/disable of submit based on validity
+    // enable submit only when looks like an email
     if(emailInput && submitBtn){
       function updateSubmitState(){
         const v = (emailInput.value || '').trim();
@@ -722,6 +779,106 @@
       emailInput.addEventListener('input', updateSubmitState);
       updateSubmitState();
     }
+
+    // ----------------------
+    // Creator modal + handler
+    // ----------------------
+    const openCreatorBtn = document.getElementById('openCreator');
+    const creatorModal = document.getElementById('creatorModal');
+    const closeCreatorBtn = document.getElementById('closeCreator');
+    const creatorCancel = document.getElementById('creatorCancel');
+    const creatorForm = document.getElementById('creatorForm');
+    const creatorSubmit = document.getElementById('creatorSubmit');
+    const creatorSuccess = document.getElementById('creatorSuccess');
+    const creatorMsg = document.getElementById('creatorMsg');
+
+    function showCreatorModal(show = true){
+      if(show){
+        creatorModal.classList.add('show');
+        creatorModal.setAttribute('aria-hidden', 'false');
+        // focus first input for accessibility
+        setTimeout(()=> document.getElementById('creator-name')?.focus(), 120);
+      } else {
+        creatorModal.classList.remove('show');
+        creatorModal.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    openCreatorBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      showCreatorModal(true);
+    });
+    closeCreatorBtn?.addEventListener('click', () => showCreatorModal(false));
+    creatorCancel?.addEventListener('click', () => showCreatorModal(false));
+    // close on backdrop click
+    creatorModal?.addEventListener('click', (e) => {
+      if(e.target === creatorModal) showCreatorModal(false);
+    });
+
+    // Creator submission logic
+    creatorForm?.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const name = (document.getElementById('creator-name')?.value || '').trim();
+      const email = (document.getElementById('creator-email')?.value || '').trim();
+      const portfolio = (document.getElementById('creator-portfolio')?.value || '').trim();
+      const role = (document.getElementById('creator-role')?.value || '').trim();
+      const note = (document.getElementById('creator-note')?.value || '').trim();
+
+      if(!name) { alert('Please enter your name.'); return; }
+      if(!isValidEmail(email)){ alert('Please enter a valid email.'); return; }
+
+      creatorSubmit.disabled = true;
+      const old = creatorSubmit.innerText;
+      creatorSubmit.innerText = 'Sending...';
+
+      let saved = false;
+      if(db){
+        try {
+          await addDoc(collection(db, 'creators'), {
+            name, email, portfolio: portfolio || null, role: role || null, note: note || null,
+            createdAt: serverTimestamp(),
+            status: 'pending'
+          });
+          saved = true;
+          creatorMsg.textContent = 'Thanks — we received your application. We will reach out soon.';
+          creatorSuccess.style.display = 'flex';
+          setTimeout(()=> { creatorSuccess.style.display = 'none'; showCreatorModal(false); }, 4000);
+        } catch (err) {
+          console.warn('Firestore creators add failed:', err);
+        }
+      }
+
+      // fallback to endpoint
+      if(!saved){
+        try {
+          const res = await fetch('/api/creators', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, portfolio, role, note })
+          });
+          if(res && res.ok){
+            saved = true;
+            creatorMsg.textContent = 'Thanks — we received your application. We will reach out soon.';
+            creatorSuccess.style.display = 'flex';
+            setTimeout(()=> { creatorSuccess.style.display = 'none'; showCreatorModal(false); }, 4000);
+          }
+        } catch (e) {
+          // ignore
+        }
+      }
+
+      if(!saved){
+        // fallback to localStorage
+        fallbackStore('ud_creators_v1', { name, email, portfolio, role, note, at: new Date().toISOString() });
+        creatorMsg.textContent = 'Saved locally (demo). We will migrate applications when backend is ready.';
+        creatorSuccess.style.display = 'flex';
+        setTimeout(()=> { creatorSuccess.style.display = 'none'; showCreatorModal(false); }, 4000);
+      }
+
+      creatorSubmit.disabled = false;
+      creatorSubmit.innerText = old;
+      creatorForm.reset();
+    });
   </script>
 
 </body>
