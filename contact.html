@@ -4,14 +4,71 @@
   <meta charset="utf-8"/><title>Contact — Undefeatables</title>
   <meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="stylesheet" href="css/style.css" />
   <style>
-    /* Small status styling to match theme */
-    #contact-status { display:inline-block; margin-left:.6rem; color:var(--muted); }
-    #contact-status.success { color: #b8f0c1; font-weight:700; }
-    #contact-status.error { color: #ffb4b4; font-weight:700; }
+    .header-wrap {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding: .75rem 0;
+      z-index: 6;
+    }
+    .brand { display:flex; gap:.85rem; align-items:center; }
+    .brand img { height:44px; width:auto; display:block; }
+    .brand h2 { margin:0; font-size:1.1rem; color: #eaf1ff; }
+    .brand .small { margin:0; color:var(--muted); font-size:.85rem; }
+
+    nav { z-index: 8; }
+    nav ul { display:flex; gap:1rem; list-style:none; margin:0; padding:0; align-items:center; }
+    nav a { color: var(--muted); text-decoration:none; font-weight:700; padding:.4rem .6rem; border-radius:8px; }
+    nav a:hover { color: #eaf1ff; background: rgba(255,255,255,0.02); }
+
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: .45rem;
+      border-radius: 10px;
+      color: #eaf1ff;
+      cursor: pointer;
+    }
+
+    @media (max-width:700px) {
+      nav ul { display: none; flex-direction: column; gap: 0; background: linear-gradient(180deg, rgba(7,16,34,0.95), rgba(3,6,12,0.95)); position: absolute; right: 10px; top: 68px; padding: .6rem; border-radius: 12px; min-width: 160px; box-shadow: 0 10px 30px rgba(2,6,23,0.7); border:1px solid rgba(255,255,255,0.03); }
+      nav ul.open { display:flex; }
+      nav ul li { width:100%; }
+      nav ul a { display:block; padding:.6rem .9rem; color:#eaf1ff; }
+      .nav-toggle { display: inline-flex; align-items:center; justify-content:center; }
+    }
   </style>
 </head>
 <body>
   <main class="container">
+    <!-- header (same as index) -->
+    <header class="header-wrap" style="position:relative; z-index:6;">
+      <div class="brand">
+        <img src="https://undefeatables.in/assets/logo-u.png" alt="Undefeatables logo">
+        <div>
+          <h2>Undefeatables</h2>
+          <p class="small">Limitless. Fearless. Undefeatable.</p>
+        </div>
+      </div>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" id="navToggle" aria-label="Toggle navigation">
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="20" height="2" rx="1" fill="currentColor"/>
+          <rect y="6" width="20" height="2" rx="1" fill="currentColor"/>
+          <rect y="12" width="20" height="2" rx="1" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <nav id="main-nav" aria-label="Main navigation">
+        <ul id="navList">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </nav>
+    </header>
+
     <section style="margin-top:1rem">
       <h2>Contact</h2>
       <p class="small">Questions, collaborations, or partnership inquiries — send us a message.</p>
@@ -23,17 +80,37 @@
         <label>Subject</label><input type="text" placeholder="Short subject" id="contact-subject" />
         <label>Message</label><textarea placeholder="Tell us what you need..." id="contact-message" required></textarea>
         <div style="display:flex;gap:.6rem;align-items:center">
-          <button type="submit" class="btn" id="contact-submit">Send Message</button>
+          <button type="submit" class="btn">Send Message</button>
           <span class="small" id="contact-status"></span>
         </div>
       </form>
     </section>
   </main>
 
-  <script src="js/common.js" defer></script>
-  <script src="js/script.js" defer></script>
+  <script>
+    // simple nav toggle (same behavior as index)
+    (function(){
+      const navToggle = document.getElementById('navToggle');
+      const navList = document.getElementById('navList');
+      if(!navToggle || !navList) return;
 
-  <!-- Firestore submit logic -->
+      navToggle.addEventListener('click', () => {
+        const isOpen = navList.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      document.addEventListener('click', (e) => {
+        const t = e.target;
+        if (!navList.contains(t) && !navToggle.contains(t) && navList.classList.contains('open')) {
+          navList.classList.remove('open');
+          navToggle.setAttribute('aria-expanded','false');
+        }
+      });
+    })();
+  </script>
+
+  
+  <script src="js/script.js" defer></script>
   <script type="module">
     // Replace or keep the firebaseConfig below - copied from your index page
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
