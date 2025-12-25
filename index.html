@@ -147,11 +147,13 @@
       box-shadow: 0 10px 40px rgba(2,6,23,0.6);
       position: relative;
       z-index: 4;
+      border: 1px solid rgba(255,255,255,0.03);
     }
     .waitlist-box h3 {
       margin: 0 0 .6rem;
       font-size: 1.2rem;
       font-weight: 700;
+      color: #eaf1ff;
     }
     .waitlist-row { display:flex; gap:.6rem; align-items:center; }
     .waitlist-row input[type="email"] {
@@ -162,13 +164,25 @@
       background: #071022;
       color: #eaf1ff;
       font-size:1rem;
+      outline: none;
+      transition: box-shadow .15s ease, transform .12s ease;
+    }
+    .waitlist-row input[type="email"]:focus {
+      box-shadow: 0 6px 24px rgba(123,75,255,0.08);
+      transform: translateY(-1px);
     }
     .waitlist-row .btn {
       padding:.68rem .9rem;
       border-radius:10px;
       box-shadow: 0 8px 24px rgba(123,75,255,0.12);
-      transition: transform .18s ease, box-shadow .18s ease;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .12s ease;
+      background: linear-gradient(90deg, rgba(196,107,255,0.95), rgba(0,212,255,0.95));
+      color: #021024;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
     }
+    .waitlist-row .btn[disabled] { opacity: 0.6; cursor: default; transform: none; box-shadow: none; }
     .waitlist-row .btn:active{ transform: translateY(1px); box-shadow: 0 6px 18px rgba(0,0,0,0.5) }
 
     .muted-note { color: var(--muted); font-size:.9rem; margin-top:.6rem; }
@@ -197,11 +211,49 @@
       100% { transform: translate3d(0,-6px,0) scale(1); }
     }
 
+    /* header + nav (added responsiveness & mobile toggle) */
+    .header-wrap {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      padding: .75rem 0;
+      z-index: 6;
+    }
+    .brand { display:flex; gap:.85rem; align-items:center; }
+    .brand img { height:44px; width:auto; display:block; }
+    .brand h2 { margin:0; font-size:1.1rem; color: #eaf1ff; }
+    .brand .small { margin:0; color:var(--muted); font-size:.85rem; }
+
+    nav { z-index: 8; }
+    nav ul { display:flex; gap:1rem; list-style:none; margin:0; padding:0; align-items:center; }
+    nav a { color: var(--muted); text-decoration:none; font-weight:700; padding:.4rem .6rem; border-radius:8px; }
+    nav a:hover { color: #eaf1ff; background: rgba(255,255,255,0.02); }
+
+    /* mobile toggle */
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: .45rem;
+      border-radius: 10px;
+      color: #eaf1ff;
+      cursor: pointer;
+    }
+
     /* responsive tuning: reduce heavy visuals on small screens */
     @media (max-width: 700px) {
       .coming-hero h1 { font-size: 1.9rem; }
       .visual-wrap { padding: 1.25rem; margin-top: 1rem; }
       .accent-orb { display:none; }
+
+      /* mobile nav: hide the inline list until toggled */
+      nav ul { display: none; flex-direction: column; gap: 0; background: linear-gradient(180deg, rgba(7,16,34,0.85), rgba(3,6,12,0.85)); position: absolute; right: 10px; top: 68px; padding: .6rem; border-radius: 12px; min-width: 160px; box-shadow: 0 10px 30px rgba(2,6,23,0.7); border: 1px solid rgba(255,255,255,0.03); }
+      nav ul.open { display: flex; }
+      nav ul li { width:100%; }
+      nav ul a { display:block; padding:.6rem .9rem; color:#eaf1ff; }
+      .nav-toggle { display: inline-flex; align-items:center; justify-content:center; }
+      .header-wrap { gap:.5rem; }
     }
 
     /* subtle footer glow */
@@ -213,6 +265,21 @@
       z-index: 6;
       position: relative;
     }
+
+    /* tiny success message */
+    .waitlist-success {
+      display:none;
+      margin-top:.6rem;
+      padding:.7rem;
+      border-radius:8px;
+      background: linear-gradient(90deg, rgba(123,75,255,0.06), rgba(0,212,255,0.04));
+      color: #eaf1ff;
+      font-weight:700;
+      text-align:center;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+    }
+    .waitlist-success.show { display:block; animation: successIn .36s ease both; }
+    @keyframes successIn { from { transform: translateY(6px); opacity: 0 } to { transform: translateY(0); opacity:1 } }
   </style>
 </head>
 
@@ -228,8 +295,18 @@
         </div>
       </div>
 
-      <nav>
-        <ul>
+      <!-- mobile toggle -->
+      <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" id="navToggle" aria-label="Toggle navigation">
+        <!-- simple hamburger icon -->
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="20" height="2" rx="1" fill="currentColor"/>
+          <rect y="6" width="20" height="2" rx="1" fill="currentColor"/>
+          <rect y="12" width="20" height="2" rx="1" fill="currentColor"/>
+        </svg>
+      </button>
+
+      <nav id="main-nav" aria-label="Main navigation">
+        <ul id="navList">
           <li><a href="/about.html">About</a></li>
           <li><a href="/contact.html">Contact</a></li>
         </ul>
@@ -256,12 +333,12 @@
         <p class="sub">Creator-led skill courses, project-first learning, and a community that ships work — built for people who actually do.</p>
 
         <!-- waitlist -->
-        <!--<div class="waitlist-box">
+        <div class="waitlist-box" aria-live="polite">
           <h3>Get Early Access</h3>
-          <form id="waitlistForm" action="#" method="POST" onsubmit="return submitWaitlist(event)">
+          <form id="waitlistForm" action="#" method="POST" novalidate>
             <div class="waitlist-row">
-              <input id="wl-email" type="email" name="email" placeholder="you@domain.com" required aria-label="email">
-              <button class="btn" type="submit">Join Waitlist</button>
+              <input id="wl-email" type="email" name="email" placeholder="you@domain.com" required aria-label="email" autocomplete="email">
+              <button class="btn" type="submit" id="wl-submit">Join Waitlist</button>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.6rem;">
               <p class="muted-note">Limited early slots — creators & mentors invited first.</p>
@@ -270,7 +347,13 @@
               </div>
             </div>
           </form>
-        </div>-->
+
+          <div id="waitlistSuccess" class="waitlist-success" role="status">Thanks — you’re on the list! Check your inbox for updates.</div>
+        </div>
+
+        <div class="creator-cta">
+          <!-- additional CTA if needed -->
+        </div>
 
       </div>
     </section>
@@ -282,56 +365,8 @@
   <!-- Keep your common scripts -->
   <script src="js/script.js" defer></script>
 
-  <!-- inline JS: particles, reduced mode, waitlist POST simulation -->
+  <!-- inline JS: particles, reduced mode -->
   <script>
-    /* ---------------------------
-       Waitlist — front-end handler
-       --------------------------- */
-    async function submitWaitlist(e) {
-      e.preventDefault();
-      const emailInput = document.getElementById('wl-email');
-      const email = emailInput.value.trim();
-      if(!email) { alert('Please enter your email'); return false; }
-
-      // visual feedback
-      const btn = e.target.querySelector('button[type="submit"]');
-      const oldTxt = btn.innerText;
-      btn.innerText = 'Adding...';
-      btn.disabled = true;
-
-      // POST to /api/waitlist if you implement backend later.
-      // For demo, we'll store to localStorage + simulate success
-      try {
-        // attempt to POST if endpoint exists
-        const res = await fetch('/api/waitlist', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email })
-        });
-        if(res.ok) {
-          alert('You’ve been added to the waitlist — check your email for updates.');
-        } else {
-          // fallback to localStorage
-          fallbackStore(email);
-        }
-      } catch (err) {
-        fallbackStore(email);
-      } finally {
-        btn.innerText = oldTxt;
-        btn.disabled = false;
-      }
-      emailInput.value = '';
-      return false;
-    }
-
-    function fallbackStore(email){
-      const key = 'ud_waitlist_v1';
-      const arr = JSON.parse(localStorage.getItem(key) || '[]');
-      arr.push({ email, at: new Date().toISOString() });
-      localStorage.setItem(key, JSON.stringify(arr));
-      alert('Added to local waitlist (demo). We will migrate this when backend is ready.');
-    }
-
     /* ---------------------------
        Particle field (lightweight)
        --------------------------- */
@@ -431,6 +466,139 @@
         else loop();
       });
     })();
+  </script>
+
+  <!-- Nav Toggle + Waitlist Firebase handler -->
+  <script type="module">
+    // ----------------------
+    // Mobile nav toggle
+    // ----------------------
+    const navToggle = document.getElementById('navToggle');
+    const navList = document.getElementById('navList');
+
+    if(navToggle && navList){
+      navToggle.addEventListener('click', () => {
+        const isOpen = navList.classList.toggle('open');
+        navToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      // Close nav on outside click (mobile)
+      document.addEventListener('click', (e) => {
+        const target = e.target;
+        if (!navList.contains(target) && !navToggle.contains(target) && navList.classList.contains('open')) {
+          navList.classList.remove('open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    // ----------------------
+    // Firebase Firestore waitlist (modular SDK)
+    // ----------------------
+    // NOTE: replace the firebaseConfig object with your project's values.
+    // You can obtain these in the Firebase console (Project Settings -> SDK setup).
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+    // TODO: replace with your Firebase config
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    let db;
+    try {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      // If config values are placeholder, operations will fail — we fallback below.
+    } catch (err) {
+      console.warn('Firebase init failed (will use fallback):', err);
+      db = null;
+    }
+
+    const waitlistForm = document.getElementById('waitlistForm');
+    const emailInput = document.getElementById('wl-email');
+    const submitBtn = document.getElementById('wl-submit');
+    const successEl = document.getElementById('waitlistSuccess');
+
+    function fallbackStore(email){
+      const key = 'ud_waitlist_v1';
+      const arr = JSON.parse(localStorage.getItem(key) || '[]');
+      arr.push({ email, at: new Date().toISOString() });
+      localStorage.setItem(key, JSON.stringify(arr));
+    }
+
+    function showSuccess(message){
+      if(successEl){
+        successEl.textContent = message || 'Thanks — you’re on the list! Check your inbox for updates.';
+        successEl.classList.add('show');
+        setTimeout(()=> successEl.classList.remove('show'), 6000);
+      } else {
+        alert(message || 'Added to waitlist');
+      }
+    }
+
+    if(waitlistForm){
+      waitlistForm.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const email = (emailInput && emailInput.value || '').trim();
+        if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+          alert('Please enter a valid email address.');
+          return;
+        }
+
+        // UI feedback
+        submitBtn.disabled = true;
+        const oldTxt = submitBtn.innerText;
+        submitBtn.innerText = 'Adding...';
+
+        // Try Firestore, else fallback to localStorage
+        let saved = false;
+        if(db){
+          try {
+            await addDoc(collection(db, 'waitlist'), {
+              email,
+              createdAt: serverTimestamp()
+            });
+            saved = true;
+            showSuccess('You’ve been added to the waitlist — check your email for updates.');
+          } catch (err) {
+            console.warn('Firestore add failed, falling back:', err);
+          }
+        }
+
+        if(!saved){
+          try {
+            // attempt a small fetch to /api/waitlist if you have a server endpoint
+            const res = await fetch('/api/waitlist', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email })
+            });
+            if(res && res.ok){
+              saved = true;
+              showSuccess('You’ve been added to the waitlist — check your email for updates.');
+            }
+          } catch (e) {
+            // ignore
+          }
+        }
+
+        if(!saved){
+          fallbackStore(email);
+          showSuccess('Added to local waitlist (demo). We will migrate this when backend is ready.');
+        }
+
+        // reset UI
+        submitBtn.innerText = oldTxt;
+        submitBtn.disabled = false;
+        if(emailInput) emailInput.value = '';
+      });
+    }
   </script>
 
 </body>
