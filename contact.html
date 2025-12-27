@@ -98,6 +98,17 @@
   
   <script src="js/script.js" defer></script>
 
+  <script>
+    // Hamburger toggle logic
+const navToggle = document.getElementById('navToggle');
+const navList = document.getElementById('navList');
+
+navToggle.addEventListener('click', () => {
+  const isOpen = navList.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', isOpen);
+});
+  </script>
+
   <!-- Firestore submit logic (modular SDK) -->
   <script type="module">
     // Imports
@@ -240,6 +251,7 @@
   </script>
 </body>
 </html>
+
 
 
 
