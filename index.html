@@ -396,7 +396,7 @@
             <div class="waitlist-subtle">Be first to join — creators invited early</div>
           </div>
 
-          <form id="waitlistForm" class="waitlist-form" action="#" method="POST" novalidate>
+          <form id="waitlistForm" class="waitlist-form" novalidate>
             <div class="input-wrap">
               <!-- email icon -->
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -643,6 +643,7 @@
 
         let saved = false;
 
+        // Try Firestore first
         if(db){
           try {
             await addDoc(collection(db, 'waitlist'), {
@@ -654,28 +655,14 @@
             showSuccess('You've been added to the waitlist — check your email for updates.');
           } catch (err) {
             console.warn('Firestore error:', err);
+            // Firestore failed, try fallback
           }
         }
 
-        if(!saved){
-          try {
-            const res = await fetch('/api/waitlist', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email })
-            });
-            if(res && res.ok){
-              saved = true;
-              showSuccess('You've been added to the waitlist — check your email for updates.');
-            }
-          } catch (e) {
-            console.warn('Server error:', e);
-          }
-        }
-
+        // Fallback to localStorage if Firestore didn't work
         if(!saved){
           fallbackStore('ud_waitlist_v1', { email, at: new Date().toISOString() });
-          showSuccess('Saved locally (demo). We will migrate this when backend is ready.');
+          showSuccess('Saved locally. We will migrate this when backend is ready.');
         }
 
         submitBtn.innerText = oldTxt;
