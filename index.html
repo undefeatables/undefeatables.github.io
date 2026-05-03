@@ -609,7 +609,7 @@
 
     function showSuccess(message){
       if(successEl && waitMsg){
-        waitMsg.textContent = message || 'Thanks — you're on the list!';
+        waitMsg.textContent = message || 'Thanks - you are on the list! Check your inbox for updates.';
         successEl.classList.add('show');
         setTimeout(()=> successEl.classList.remove('show'), 7000);
       } else {
@@ -652,7 +652,7 @@
               source: 'site'
             });
             saved = true;
-            showSuccess('You've been added to the waitlist — check your email for updates.');
+            showSuccess('You have been added to the waitlist - check your email for updates.');
           } catch (err) {
             console.warn('Firestore error:', err);
             // Firestore failed, try fallback
