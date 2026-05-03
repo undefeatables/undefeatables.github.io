@@ -13,13 +13,14 @@
       position: relative;
       overflow: hidden;
       border-radius: var(--radius);
-      padding: 3rem 2rem;
+      padding: 4rem 2rem;
       margin-top: 2rem;
       box-shadow: var(--shadow);
       background:
         radial-gradient(800px 240px at 10% 15%, rgba(123,75,255,0.06), transparent 6%),
         radial-gradient(600px 200px at 90% 85%, rgba(0,212,255,0.035), transparent 6%),
         linear-gradient(180deg, rgba(10,12,20,0.55), rgba(3,6,12,0.6));
+      backdrop-filter: blur(6px);
     }
 
     /* canvas sits behind content */
@@ -87,14 +88,13 @@
       text-align: center;
       color: #eaf1ff;
       padding: 0;
-      backdrop-filter: blur(4px);
     }
     .coming-hero h1 {
-      font-size: 3rem;
-      margin: 0 0 0.6rem;
+      font-size: 3.2rem;
+      margin: 0 0 0.8rem;
       font-weight: 800;
       letter-spacing: -1px;
-      line-height: 1.02;
+      line-height: 1.1;
       text-wrap: balance;
       text-shadow:
         0 8px 30px rgba(2,6,23,0.7),
@@ -110,11 +110,10 @@
 
     .coming-hero .sub {
       color: var(--muted);
-      font-size: 1.05rem;
-      margin: 0 0 2rem 0;
-      max-width: 680px;
-      margin-left: auto;
-      margin-right: auto;
+      font-size: 1.1rem;
+      margin: 0 auto 2.5rem;
+      max-width: 720px;
+      line-height: 1.6;
       opacity: 0;
       transform: translateY(8px);
       animation: revealUp 0.9s cubic-bezier(0.2, 0.9, 0.2, 1) 0.25s forwards;
@@ -127,8 +126,8 @@
     /* neon underline pulse */
     .hero-underscore {
       height: 6px;
-      width: 180px;
-      margin: 1rem auto 1.5rem;
+      width: 200px;
+      margin: 0 auto 1.8rem;
       border-radius: 999px;
       background: linear-gradient(90deg, var(--brand1), var(--brand2));
       box-shadow: 0 10px 40px rgba(123,75,255,0.14);
@@ -140,37 +139,39 @@
       to { opacity: 1; transform: scaleX(1); }
     }
 
-    /* ============ WAITLIST UI (sleek redesign) ============ */
+    /* ============ WAITLIST UI (premium sleek) ============ */
     .waitlist-box {
-      max-width: 520px;
+      max-width: 540px;
       margin: 0 auto;
-      padding: 2rem;
+      padding: 2.5rem;
       border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(255,255,255,0.04);
+      background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.008));
+      box-shadow: 0 20px 60px rgba(2,6,23,0.4);
+      border: 1px solid rgba(255,255,255,0.05);
       position: relative;
       z-index: 4;
     }
 
     .waitlist-head {
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.6rem;
     }
     .waitlist-head h3 {
       margin: 0;
-      font-size: 1.25rem;
+      font-size: 1.35rem;
       font-weight: 800;
       color: #eaf1ff;
+      letter-spacing: -0.5px;
     }
     .waitlist-subtle {
       color: var(--muted);
       font-size: 0.95rem;
-      margin-top: 0.4rem;
+      margin-top: 0.5rem;
+      font-weight: 500;
     }
 
     .waitlist-form {
       display: grid;
-      gap: 1rem;
+      gap: 1.2rem;
     }
 
     /* input styling using style.css pattern */
@@ -180,116 +181,123 @@
     }
     .input-wrap svg {
       position: absolute;
-      left: 14px;
+      left: 15px;
       top: 50%;
       transform: translateY(-50%);
-      height: 18px;
-      width: 18px;
-      opacity: 0.7;
+      height: 19px;
+      width: 19px;
+      opacity: 0.65;
       color: var(--muted);
       pointer-events: none;
     }
 
     .waitlist-form input[type="email"] {
       width: 100%;
-      padding: 0.9rem 1rem 0.9rem 42px;
+      padding: 0.95rem 1.1rem 0.95rem 45px;
       border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.02);
-      background: #0b1220;
+      border: 1px solid rgba(255,255,255,0.05);
+      background: linear-gradient(180deg, rgba(11,18,32,0.8), rgba(11,18,32,0.6));
       color: #e6f3ff;
       font-size: 1rem;
       font-family: inherit;
       outline: none;
-      transition: box-shadow 0.18s ease, transform 0.12s ease, border-color 0.12s ease;
+      transition: all 0.2s ease;
     }
     .waitlist-form input[type="email"]::placeholder {
-      color: rgba(234,241,255,0.45);
+      color: rgba(152,160,179,0.55);
     }
 
     .waitlist-form input[type="email"]:focus {
-      box-shadow: 0 8px 30px rgba(123,75,255,0.12);
-      border-color: rgba(123,75,255,0.4);
-      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(123,75,255,0.15);
+      border-color: rgba(123,75,255,0.35);
+      transform: translateY(-1px);
+      background: linear-gradient(180deg, rgba(11,18,32,0.95), rgba(11,18,32,0.8));
     }
 
     .form-actions {
       display: flex;
-      gap: 0.8rem;
+      gap: 1rem;
       align-items: center;
     }
 
     .waitlist-form .btn {
       flex: 1;
-      min-width: 140px;
-      padding: 0.75rem 1rem;
+      padding: 0.85rem 1.2rem;
       border-radius: 8px;
       background: linear-gradient(90deg, var(--brand1), var(--brand2));
-      color: #091124;
+      color: #021024;
       font-weight: 800;
       border: none;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(123,75,255,0.14);
-      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+      transition: all 0.2s ease;
       font-size: 1rem;
+      min-width: 140px;
     }
     .waitlist-form .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(123,75,255,0.18);
+      box-shadow: 0 12px 32px rgba(123,75,255,0.2);
     }
     .waitlist-form .btn:active {
-      transform: translateY(1px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+      transform: translateY(0px);
+      box-shadow: 0 6px 16px rgba(123,75,255,0.14);
     }
     .waitlist-form .btn[disabled] {
-      opacity: 0.6;
-      cursor: default;
+      opacity: 0.5;
+      cursor: not-allowed;
       transform: none;
     }
 
     .form-meta {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       gap: 0.6rem;
       align-items: center;
-      margin-top: 0.8rem;
+      margin-top: 1rem;
     }
     .muted-note {
       color: var(--muted);
       font-size: 0.88rem;
       margin: 0;
+      font-weight: 500;
     }
 
     /* inline error message */
     .input-error {
-      color: #ffb4b4;
+      color: #ff9e9e;
       font-size: 0.9rem;
-      margin-top: 0.5rem;
+      margin-top: 0.6rem;
       display: none;
       align-items: center;
-      gap: 0.45rem;
+      gap: 0.5rem;
     }
     .input-error.show {
       display: flex;
+      animation: slideIn 0.2s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* success toast */
     .waitlist-success {
       display: flex;
-      gap: 0.6rem;
+      gap: 0.8rem;
       align-items: center;
       justify-content: center;
-      margin-top: 1rem;
-      padding: 1rem;
+      margin-top: 1.2rem;
+      padding: 1.1rem;
       border-radius: 8px;
-      background: linear-gradient(90deg, rgba(123,75,255,0.08), rgba(0,212,255,0.04));
-      border: 1px solid rgba(123,75,255,0.2);
+      background: linear-gradient(90deg, rgba(123,75,255,0.08), rgba(0,212,255,0.05));
+      border: 1px solid rgba(123,75,255,0.25);
       color: #eaf1ff;
       font-weight: 600;
       text-align: center;
       box-shadow: 0 10px 36px rgba(2,6,23,0.6);
       transform: translateY(6px);
       opacity: 0;
-      transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.2, 1), opacity 0.28s;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
       pointer-events: none;
     }
     .waitlist-success.show {
@@ -299,22 +307,24 @@
     }
 
     /* responsive: stack on small screens */
-    @media (max-width: 520px) {
-      .coming-hero h1 {
-        font-size: 2rem;
-      }
-      .coming-hero .sub {
-        font-size: 0.95rem;
-      }
+    @media (max-width: 640px) {
       .visual-wrap {
-        padding: 1.5rem 1rem;
+        padding: 2.5rem 1.5rem;
         margin-top: 1rem;
       }
+      .coming-hero h1 {
+        font-size: 2.2rem;
+      }
+      .coming-hero .sub {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
       .waitlist-box {
-        padding: 1.5rem;
+        padding: 1.8rem;
       }
       .form-actions {
         flex-direction: column;
+        gap: 0.6rem;
       }
       .waitlist-form .btn {
         width: 100%;
@@ -324,14 +334,15 @@
       }
     }
 
-    /* subtle footer glow */
+    /* footer */
     footer.site-footer {
       margin-top: 2rem;
-      padding: 1rem 0;
+      padding: 1.5rem 0;
       text-align: center;
       color: var(--muted);
       z-index: 6;
       position: relative;
+      font-weight: 500;
     }
   </style>
 </head>
@@ -378,7 +389,7 @@
         <div class="hero-underscore" aria-hidden="true"></div>
         <p class="sub">Creator-led skill courses, project-first learning, and a community that ships work — built for people who actually do.</p>
 
-        <!-- WAITLIST (cleaned & sleek) -->
+        <!-- WAITLIST -->
         <div class="waitlist-box" aria-live="polite">
           <div class="waitlist-head">
             <h3>Get Early Access</h3>
@@ -470,14 +481,12 @@
 
       function draw(){
         ctx.clearRect(0,0,w,h);
-        // subtle gradient glow background (adds cinematic depth)
         const g = ctx.createLinearGradient(0,0,w,h);
         g.addColorStop(0, 'rgba(123,75,255,0.02)');
         g.addColorStop(1, 'rgba(0,212,255,0.01)');
         ctx.fillStyle = g;
         ctx.fillRect(0,0,w,h);
 
-        // moving thin lines (scan-like)
         ctx.globalCompositeOperation = 'lighter';
         particles.forEach(p=>{
           p.x += p.vx;
@@ -487,7 +496,6 @@
           if(p.y < -20) p.y = h + 20;
           if(p.y > h + 20) p.y = -20;
 
-          // glow
           const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r*6);
           const color = `hsla(${p.hue}, 85%, 60%, ${p.alpha})`;
           grd.addColorStop(0, color);
@@ -498,7 +506,6 @@
           ctx.arc(p.x, p.y, p.r*6, 0, Math.PI*2);
           ctx.fill();
 
-          // core dot
           ctx.beginPath();
           ctx.fillStyle = `hsla(${p.hue}, 85%, 60%, ${Math.min(1,p.alpha*2)})`;
           ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
@@ -513,11 +520,9 @@
         raf = requestAnimationFrame(loop);
       }
 
-      // init + start
       init();
       if(!reduced) loop();
 
-      // on resize re-init
       let resizeTO;
       window.addEventListener('resize', ()=>{
         cancelAnimationFrame(raf);
@@ -525,7 +530,6 @@
         resizeTO = setTimeout(()=>{ init(); if(!reduced) loop(); }, 250);
       });
 
-      // small performance guard: stop particles on hidden page
       document.addEventListener('visibilitychange', ()=>{
         if(document.hidden) cancelAnimationFrame(raf);
         else loop();
@@ -535,9 +539,7 @@
 
   <!-- Nav Toggle + Waitlist handler (Firestore + fallback) -->
   <script type="module">
-    // ----------------------
     // Mobile nav toggle
-    // ----------------------
     const navToggle = document.getElementById('navToggle');
     const navList = document.getElementById('navList');
 
@@ -547,7 +549,6 @@
         navToggle.setAttribute('aria-expanded', String(isOpen));
       });
 
-      // Close nav on outside click (mobile)
       document.addEventListener('click', (e) => {
         const target = e.target;
         if (!navList.contains(target) && !navToggle.contains(target) && navList.classList.contains('active')) {
@@ -557,13 +558,10 @@
       });
     }
 
-    // ----------------------
-    // Firebase (client) setup - firestore imports
-    // ----------------------
+    // Firebase setup
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-    // Your web app's Firebase configuration (kept from your project)
     const firebaseConfig = {
       apiKey: "AIzaSyBJ79YElN89gT4U-4z339kAE4JjnPobMr0",
       authDomain: "undef-wait-v1.firebaseapp.com",
@@ -579,11 +577,10 @@
       const app = initializeApp(firebaseConfig);
       db = getFirestore(app);
     } catch (err) {
-      console.warn('Firestore client init failed — using local fallback only. Error:', err);
+      console.warn('Firestore init failed:', err);
       db = null;
     }
 
-    // Elements
     const waitlistForm = document.getElementById('waitlistForm');
     const emailInput = document.getElementById('wl-email');
     const submitBtn = document.getElementById('wl-submit');
@@ -594,7 +591,6 @@
 
     function fallbackStore(key, payload){
       const arr = JSON.parse(localStorage.getItem(key) || '[]');
-      // prevent immediate duplicates
       if(!arr.some(i => i.email && i.email.toLowerCase() === (payload.email || '').toLowerCase())){
         arr.push(payload);
         localStorage.setItem(key, JSON.stringify(arr));
@@ -640,7 +636,6 @@
           return;
         }
 
-        // UI feedback
         inflight = true;
         submitBtn.disabled = true;
         const oldTxt = submitBtn.innerText;
@@ -648,7 +643,6 @@
 
         let saved = false;
 
-        // 1) Preferred: client Firestore (works if your rules allow)
         if(db){
           try {
             await addDoc(collection(db, 'waitlist'), {
@@ -659,12 +653,10 @@
             saved = true;
             showSuccess('You've been added to the waitlist — check your email for updates.');
           } catch (err) {
-            console.warn('Firestore add failed (permission or rules):', err);
-            // If permission issue occurs, saved remains false -> fallback steps below
+            console.warn('Firestore error:', err);
           }
         }
 
-        // 2) Optional fallback to your server endpoint (if exists)
         if(!saved){
           try {
             const res = await fetch('/api/waitlist', {
@@ -675,23 +667,17 @@
             if(res && res.ok){
               saved = true;
               showSuccess('You've been added to the waitlist — check your email for updates.');
-            } else {
-              // non-OK response; log for debugging
-              console.warn('Server /api/waitlist responded with', res && res.status);
             }
           } catch (e) {
-            // ignore network errors and proceed to fallback
-            console.warn('Server fallback failed:', e);
+            console.warn('Server error:', e);
           }
         }
 
-        // 3) Final fallback: localStorage
         if(!saved){
           fallbackStore('ud_waitlist_v1', { email, at: new Date().toISOString() });
           showSuccess('Saved locally (demo). We will migrate this when backend is ready.');
         }
 
-        // reset UI
         submitBtn.innerText = oldTxt;
         submitBtn.disabled = false;
         inflight = false;
@@ -699,7 +685,6 @@
       });
     }
 
-    // optional: real-time enable/disable of submit based on validity
     if(emailInput && submitBtn){
       function updateSubmitState(){
         const v = (emailInput.value || '').trim();
