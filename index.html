@@ -436,7 +436,14 @@
 
   </main>
 
-  <footer class="site-footer">© 2025 Undefeatables — All rights reserved.</footer>
+  <footer class="site-footer"><p>&copy; <span id="year"></span> Undefeatables. All rights reserved.</p>
+  <p>Undefeatables is a brand operated under Acromatic Group,<br>a sole proprietorship owned by Kavita Mishra.</p></footer>
+   <script>
+  // Get the current year
+       const currentYear = new Date().getFullYear();
+  // Insert it into the span with id="year"
+       document.getElementById("year").textContent = currentYear;
+    </script>
 
   <!-- Keep your common scripts -->
   <script src="js/script.js" defer></script>
