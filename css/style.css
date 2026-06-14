@@ -251,3 +251,16 @@ footer.site-footer{margin-top:2rem;padding:1rem;text-align:center;color:var(--mu
   .header-wrap{padding:0.6rem 0.6rem}
 }
 
+/* ===== Overrides to unify behavior and fix icon/hamburger visibility ===== */
+/* Input icon sizing and input padding so the SVG doesn't overflow */
+.input-wrap{position:relative}
+.input-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:20px;height:20px;opacity:0.95;pointer-events:none;}
+.waitlist-form input[type="email"], .input-wrap input[type="email"]{padding-left:48px}
+
+/* Ensure nav open/active class works across pages and has enough z-index */
+@media (max-width:980px){
+  nav ul.open, nav ul.active{display:flex !important}
+  nav ul{z-index:800}
+  .hamburger{display:flex !important}
+  .hamburger span{background:#eaf1ff !important;width:22px;height:3px;border-radius:3px;box-shadow:0 1px 0 rgba(0,0,0,0.25)}
+}
