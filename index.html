@@ -147,6 +147,11 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
+    /* Input icon + waitlist small fixes: ensure SVG icon sizes and input padding */
+    .input-wrap { position: relative; display: block; }
+    .input-wrap svg { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); height: 19px; width: 19px; opacity: 0.65; color: var(--muted); pointer-events: none; }
+    .waitlist-form input[type="email"] { width: 100%; padding: 0.95rem 1.1rem 0.95rem 45px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); background: linear-gradient(180deg, rgba(11,18,32,0.8), rgba(11,18,32,0.6)); color: #e6f3ff; font-size: 1rem; }
+
     /* rest of styles unchanged... (kept as before) */
   </style>
 </head>
