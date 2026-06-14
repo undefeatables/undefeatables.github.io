@@ -21,7 +21,8 @@
 
     /* hamburger button visuals */
     .hamburger{ display:none; background: transparent; border: 1px solid rgba(255,255,255,0.06); padding: .45rem; border-radius: 10px; color: #eaf1ff; cursor: pointer; align-items:center; justify-content:center; }
-    .hamburger span{ display:block; width:20px; height:2px; border-radius:2px; background:currentColor; margin:3px 0; }
+    /* ensure the three bars are visible */
+    .hamburger span{ display:inline-block; width:18px; height:2px; border-radius:2px; background:#eaf1ff; margin:3px 0; box-shadow: 0 1px 0 rgba(0,0,0,0.25); }
 
     /* MOBILE / TABLET breakpoint: collapse nav for screens <=900px (includes tablets) */
     @media (max-width:900px) {
@@ -149,8 +150,9 @@
 
     /* Input icon + waitlist small fixes: ensure SVG icon sizes and input padding */
     .input-wrap { position: relative; display: block; }
-    .input-wrap svg { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); height: 19px; width: 19px; opacity: 0.65; color: var(--muted); pointer-events: none; }
-    .waitlist-form input[type="email"] { width: 100%; padding: 0.95rem 1.1rem 0.95rem 45px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); background: linear-gradient(180deg, rgba(11,18,32,0.8), rgba(11,18,32,0.6)); color: #e6f3ff; font-size: 1rem; }
+    /* Larger, visible icon */
+    .input-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; opacity: 0.85; color: var(--muted); pointer-events: none; }
+    .waitlist-form input[type="email"] { width: 100%; padding: 0.95rem 1.1rem 0.95rem 48px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); background: linear-gradient(180deg, rgba(11,18,32,0.8), rgba(11,18,32,0.6)); color: #e6f3ff; font-size: 1rem; }
 
     /* rest of styles unchanged... (kept as before) */
   </style>
@@ -207,8 +209,8 @@
 
           <form id="waitlistForm" class="waitlist-form" novalidate>
             <div class="input-wrap">
-              <!-- email icon -->
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <!-- email icon (explicit size attributes for robustness) -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M3 6.5A2.5 2.5 0 015.5 4h13A2.5 2.5 0 0121 6.5v11A2.5 2.5 0 0118.5 20h-13A2.5 2.5 0 013 17.5v-11z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
                 <path d="M3 6.5l9 6 9-6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
               </svg>
