@@ -20,13 +20,13 @@
     nav a:hover { color: #eaf1ff; background: rgba(255,255,255,0.02); }
 
     /* hamburger button visuals */
-    .hamburger{ display:none; background: transparent; border: 1px solid rgba(255,255,255,0.06); padding: .45rem; border-radius: 10px; color: #eaf1ff; cursor: pointer; align-items:center; justify-content:center; }
+    .hamburger { display:none; background: transparent; border: 1px solid rgba(255,255,255,0.06); padding: .45rem; border-radius: 10px; color: #eaf1ff; cursor: pointer; align-items:center; justify-content: center; flex-direction: column; gap: 5px; }
     /* ensure the three bars are visible */
-    .hamburger span{ display:inline-block; width:18px; height:2px; border-radius:2px; background:#eaf1ff; margin:3px 0; box-shadow: 0 1px 0 rgba(0,0,0,0.25); }
+    .hamburger span { display:inline-block; width:18px; height:2px; border-radius:2px; background:#eaf1ff; margin:3px 0; box-shadow: 0 1px 0 rgba(0,0,0,0.25); }
 
     /* MOBILE / TABLET breakpoint: collapse nav for screens <=900px (includes tablets) */
     @media (max-width:900px) {
-      nav ul { display: none; flex-direction: column; gap: 0; background: linear-gradient(180deg, rgba(7,16,34,0.98), rgba(3,6,12,0.98)); position: absolute; right: 10px; top: 68px; padding: .6rem; border-radius: 10px; box-shadow: 0 10px 40px rgba(2,6,23,0.6); min-width: 200px; max-width: calc(100vw - 40px); }
+      nav ul { display: none; flex-direction: column; gap: 0; background: linear-gradient(180deg, rgba(7,16,34,0.98), rgba(3,6,12,0.98)); position: absolute; right: 10px; top: 68px; padding: .6rem 0; border-radius: 8px; z-index: 999; }
       nav ul.open { display:flex; }
       nav ul li { width:100%; }
       nav ul a { display:block; padding:.6rem .9rem; color:#eaf1ff; }
@@ -151,8 +151,30 @@
     /* Input icon + waitlist small fixes: ensure SVG icon sizes and input padding */
     .input-wrap { position: relative; display: block; }
     /* Larger, visible icon */
-    .input-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; opacity: 0.85; color: var(--muted); pointer-events: none; }
-    .waitlist-form input[type="email"] { width: 100%; padding: 0.95rem 1.1rem 0.95rem 48px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); background: linear-gradient(180deg, rgba(11,18,32,0.8), rgba(11,18,32,0.6)); color: #e6f3ff; font-size: 1rem; }
+    .input-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; max-width: 20px; opacity: 0.85; color: var(--muted); pointer-events: none; flex-shrink: 0; }
+    .waitlist-form input[type="email"] { width: 100%; padding: 0.95rem 1.1rem 0.95rem 48px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005)); color: #e6f3ff; font-size: 1rem; transition: all 0.2s ease; }
+    .waitlist-form input[type="email"]:focus { outline: none; border-color: rgba(123,75,255,0.3); background: linear-gradient(180deg, rgba(123,75,255,0.04), rgba(0,212,255,0.02)); }
+    .waitlist-form input[type="email"]::placeholder { color: rgba(255,255,255,0.3); }
+
+    /* Waitlist box styling */
+    .waitlist-box { margin-top: 2rem; }
+    .waitlist-head { margin-bottom: 1.5rem; text-align: center; }
+    .waitlist-head h3 { margin: 0 0 0.5rem; font-size: 1.3rem; font-weight: 700; }
+    .waitlist-subtle { color: var(--muted); font-size: 0.95rem; }
+
+    .form-actions { display: flex; gap: 1rem; margin-top: 1rem; }
+    .form-actions .btn { flex: 1; }
+
+    .form-meta { margin-top: 0.8rem; text-align: center; }
+    .muted-note { margin: 0; color: var(--muted); font-size: 0.85rem; }
+
+    .input-error { display: none; color: #ff6b6b; font-size: 0.85rem; margin-top: 0.5rem; align-items: center; gap: 0.4rem; }
+    .input-error svg { flex-shrink: 0; }
+    .input-error.show { display: flex; }
+
+    .waitlist-success { display: none; color: #51cf66; font-size: 0.95rem; align-items: center; gap: 0.6rem; margin-top: 1rem; padding: 1rem; background: rgba(81,207,102,0.08); border-radius: 8px; border: 1px solid rgba(81,207,102,0.2); }
+    .waitlist-success.show { display: flex; }
+    .waitlist-success svg { flex-shrink: 0; }
 
     /* rest of styles unchanged... (kept as before) */
   </style>
