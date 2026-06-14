@@ -20,17 +20,17 @@
     nav a:hover { color: #eaf1ff; background: rgba(255,255,255,0.02); }
 
     /* hamburger button visuals */
-    .hamburger { display:none; background: transparent; border: 1px solid rgba(255,255,255,0.06); padding: .45rem; border-radius: 10px; color: #eaf1ff; cursor: pointer; align-items:center; justify-content: center; flex-direction: column; gap: 5px; }
+    .hamburger { display:none; background: transparent; border: 1px solid rgba(255,255,255,0.06); padding: .45rem; border-radius: 10px; color: #eaf1ff; cursor: pointer; align-items:center; justify-content:center; flex-direction:column; gap:5px; z-index:999; width:40px; height:40px; }
     /* ensure the three bars are visible */
-    .hamburger span { display:inline-block; width:18px; height:2px; border-radius:2px; background:#eaf1ff; margin:3px 0; box-shadow: 0 1px 0 rgba(0,0,0,0.25); }
+    .hamburger span { display:block; width:22px; height:3px; border-radius:2px; background:#eaf1ff; transition:all 0.2s ease; }
 
     /* MOBILE / TABLET breakpoint: collapse nav for screens <=900px (includes tablets) */
     @media (max-width:900px) {
-      nav ul { display: none; flex-direction: column; gap: 0; background: linear-gradient(180deg, rgba(7,16,34,0.98), rgba(3,6,12,0.98)); position: absolute; right: 10px; top: 68px; padding: .6rem 0; border-radius: 8px; z-index: 999; }
+      nav ul { display: none; flex-direction: column; gap: 0; background: linear-gradient(180deg, rgba(7,16,34,0.98), rgba(3,6,12,0.98)); position: absolute; right: 10px; top: 68px; padding: .6rem 0; border-radius: 8px; z-index: 900; }
       nav ul.open { display:flex; }
       nav ul li { width:100%; }
       nav ul a { display:block; padding:.6rem .9rem; color:#eaf1ff; }
-      .hamburger { display: inline-flex; }
+      .hamburger { display: flex; }
     }
 
     /* --- visual canvas layer --- */
@@ -148,10 +148,12 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* Input icon + waitlist small fixes: ensure SVG icon sizes and input padding */
+    /* Input icon + waitlist form styling */
     .input-wrap { position: relative; display: block; }
-    /* Larger, visible icon */
-    .input-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; max-width: 20px; opacity: 0.85; color: var(--muted); pointer-events: none; flex-shrink: 0; }
+    .input-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; max-width: 20px; flex-shrink: 0; opacity: 0.85; color: var(--muted); pointer-events: none; }
+    
+    /* Waitlist form max-width to prevent stretching */
+    .waitlist-form { max-width: 500px; margin: 0 auto; }
     .waitlist-form input[type="email"] { width: 100%; padding: 0.95rem 1.1rem 0.95rem 48px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005)); color: #e6f3ff; font-size: 1rem; transition: all 0.2s ease; }
     .waitlist-form input[type="email"]:focus { outline: none; border-color: rgba(123,75,255,0.3); background: linear-gradient(180deg, rgba(123,75,255,0.04), rgba(0,212,255,0.02)); }
     .waitlist-form input[type="email"]::placeholder { color: rgba(255,255,255,0.3); }
@@ -162,8 +164,8 @@
     .waitlist-head h3 { margin: 0 0 0.5rem; font-size: 1.3rem; font-weight: 700; }
     .waitlist-subtle { color: var(--muted); font-size: 0.95rem; }
 
-    .form-actions { display: flex; gap: 1rem; margin-top: 1rem; }
-    .form-actions .btn { flex: 1; }
+    .form-actions { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+    .form-actions .btn { flex: 1; min-width: 120px; padding: 0.75rem 1.5rem; font-size: 0.95rem; }
 
     .form-meta { margin-top: 0.8rem; text-align: center; }
     .muted-note { margin: 0; color: var(--muted); font-size: 0.85rem; }
@@ -176,7 +178,15 @@
     .waitlist-success.show { display: flex; }
     .waitlist-success svg { flex-shrink: 0; }
 
-    /* rest of styles unchanged... (kept as before) */
+    /* Mobile responsive adjustments */
+    @media (max-width: 600px) {
+      .coming-hero h1 { font-size: 2rem; }
+      .coming-hero .sub { font-size: 0.95rem; margin-bottom: 1.5rem; }
+      .waitlist-form { max-width: 100%; }
+      .form-actions { flex-direction: column; }
+      .form-actions .btn { width: 100%; }
+      .visual-wrap { padding: 2rem 1rem; }
+    }
   </style>
 </head>
 
